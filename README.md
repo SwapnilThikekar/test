@@ -8,3 +8,4 @@
 
 =CONCATENATE("[", IF(ISNUMBER(FIND(",", [YourColumnName])), MID([YourColumnName], 1, FIND(",", [YourColumnName]) - 1) & """,""", ""), MID([YourColumnName], FIND(",", [YourColumnName]) + 1, IF(ISNUMBER(FIND(",", MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName])))), FIND(",", MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName]))) - 1, LEN(MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName])))))) & """]"
 
+=IF(ISNUMBER(FIND("swap", [YourColumnName])), CONCATENATE(LEFT([YourColumnName], FIND("swap", [YourColumnName]) - 1), """", MID([YourColumnName], FIND("swap", [YourColumnName]) + LEN("swap"), LEN([YourColumnName]))), [YourColumnName])
