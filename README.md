@@ -1,11 +1,25 @@
-# test
-="[" & LEFT([MyString], IF(ISERROR(FIND(",", [MyString])), LEN([MyString]), FIND(",", [MyString]) - 1)) & """,""" & IF(ISERROR(FIND(",", [MyString], FIND(",", [MyString]) + 1)), MID([MyString], FIND(",", [MyString]) + 1, LEN([MyString])), MID([MyString], FIND(",", [MyString]) + 1, FIND(",", [MyString], FIND(",", [MyString]) + 1) - FIND(",", [MyString]) - 1)) & """,""" & IF(ISERROR(FIND(",", [MyString], FIND(",", [MyString]) + 1)), "", RIGHT([MyString], LEN([MyString]) - FIND(",", [MyString], FIND(",", [MyString]) + 1))) & "]"
-
-=CONCATENATE("[", IF(ISNUMBER(FIND(",", [YourColumnName])), MID([YourColumnName], 1, FIND(",", [YourColumnName]) - 1) & """,""", ""), MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName])), """]")
-
-
-="[""" & LEFT([YourColumnName], FIND(",", [YourColumnName]) - 1) & """,""" & MID([YourColumnName], FIND(",", [YourColumnName]) + 1, FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) - FIND(",", [YourColumnName]) - 1) & """,""" & MID([YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1, FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1) - FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) - 1) & """,""" & MID([YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1) + 1, FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1) + 1) - FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1) - 1) & """,""" & MID([YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName], FIND(",", [YourColumnName]) + 1) + 1) + 1) + 1, LEN([YourColumnName])) & """]"
-
-=CONCATENATE("[", IF(ISNUMBER(FIND(",", [YourColumnName])), MID([YourColumnName], 1, FIND(",", [YourColumnName]) - 1) & """,""", ""), MID([YourColumnName], FIND(",", [YourColumnName]) + 1, IF(ISNUMBER(FIND(",", MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName])))), FIND(",", MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName]))) - 1, LEN(MID([YourColumnName], FIND(",", [YourColumnName]) + 1, LEN([YourColumnName])))))) & """]"
-
-=IF(ISNUMBER(FIND("swap", [YourColumnName])), CONCATENATE(LEFT([YourColumnName], FIND("swap", [YourColumnName]) - 1), """", MID([YourColumnName], FIND("swap", [YourColumnName]) + LEN("swap"), LEN([YourColumnName]))), [YourColumnName])
+var month = date.getMonth() + 1; // getMonth() returns 0-based index (0 for January)
+    
+    // Determine fiscal year
+    var fiscalYear = year;
+    if (month < 4) { // Fiscal year starts from January
+        fiscalYear = year - 1;
+    }
+    
+    // Determine fiscal quarter
+    var quarter;
+    if (month >= 1 && month <= 3) {
+        quarter = 4; // Q4 of previous fiscal year
+    } else if (month >= 4 && month <= 6) {
+        quarter = 1; // Q1
+    } else if (month >= 7 && month <= 9) {
+        quarter = 2; // Q2
+    } else if (month >= 10 && month <= 12) {
+        quarter = 3; // Q3
+    }
+    
+    return {
+        fiscalYear: fiscalYear,
+        quarter: quarter
+    };
+}
